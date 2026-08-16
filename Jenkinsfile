@@ -3,8 +3,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USERNAME = "richerd13"        // Replace with your Docker Hub username
-        IMAGE_NAME = "richerd13/mycalculatorapp"
+        DOCKERHUB_USERNAME = "richerd13"
+        IMAGE_NAME = "mycalculatorapp"
+        IMAGE_TAG = "${BUILD_NUMBER}"
         CONTAINER_NAME = "calculator-app"
         APP_PORT = "3000"
         DOCKER_CREDENTIALS = "dockerhubcredentials"
@@ -27,7 +28,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh """
-                    docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME} .
+                    docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} .
                     docker tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
                 """
             }
